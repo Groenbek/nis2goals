@@ -69,35 +69,32 @@ const NIS2Questionnaire = () => {
 
   const calculateScore = () => {
     const yesAnswers = Object.values(answers).filter((ans) => ans === "Ja").length;
-    if (yesAnswers <= 4) return "🚨 Høj risiko! I har sandsynligvis behov for en dybere gennemgang af jeres NIS2-compliance.";
-    if (yesAnswers <= 7) return "⚠️ Delvist compliant – der er områder, der bør forbedres.";
-    return "✅ Godt på vej! I har allerede en stærk NIS2-strategi, men kan stadig have blinde vinkler.";
+    if (yesAnswers <= 4) return "Høj risiko! I har sandsynligvis behov for en dybere gennemgang af jeres NIS2-compliance.";
+    if (yesAnswers <= 7) return "Delvist compliant – der er områder, der bør forbedres.";
+    return "Godt på vej! I har allerede en stærk NIS2-strategi, men kan stadig have blinde vinkler.";
   };
 
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div>
       {!showResult ? (
-        <div className="p-6 w-96 text-center border border-gray-300 rounded-lg shadow-lg">
-          <h2 className="text-xl font-bold mb-4">{questions[currentQuestion].category}</h2>
-          <p className="text-lg mb-4">{questions[currentQuestion].text}</p>
-          <div className="flex flex-col space-y-2">
+        <>
+          <div>Spørgsmål {currentQuestion + 1}/{questions.length}</div>
+          <h2>{questions[currentQuestion].category}</h2>
+          <p>{questions[currentQuestion].text}</p>
+          <div>
             {questions[currentQuestion].options.map((option) => (
-              <button
-                key={option}
-                onClick={() => handleAnswer(option)}
-                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 transition"
-              >
+              <button key={option} onClick={() => handleAnswer(option)}>
                 {option}
               </button>
             ))}
           </div>
-        </div>
+        </>
       ) : (
-        <div className="p-6 w-96 text-center border border-gray-300 rounded-lg shadow-lg">
-          <h2 className="text-xl font-bold mb-4">Resultat & Opfølgning</h2>
-          <p className="text-lg mb-4">{calculateScore()}</p>
-          <p className="mt-4">Vil I have en mere detaljeret vurdering? Kontakt os for en uforpligtende samtale om, hvordan vi kan hjælpe!</p>
-        </div>
+        <>
+          <h2>Resultat & Opfølgning</h2>
+          <p>{calculateScore()}</p>
+          <p>Vil I have en mere detaljeret vurdering? Kontakt os for en uforpligtende samtale om, hvordan vi kan hjælpe!</p>
+        </>
       )}
     </div>
   );
@@ -106,7 +103,7 @@ const NIS2Questionnaire = () => {
 const Homepage = () => {
   return (
     <div>
-      <h1 className="text-2xl font-bold text-center my-4">Homepage</h1>
+      <h1>NIS2 Compliance Tjek</h1>
       <NIS2Questionnaire />
     </div>
   );
