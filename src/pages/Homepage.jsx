@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import styled from "styled-components";
 
 const questions = [
   {
@@ -53,6 +54,55 @@ const questions = [
   },
 ];
 
+const Container = styled.div`
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+`;
+
+const QuestionContainer = styled.div`
+  margin-bottom: 20px;
+`;
+
+const QuestionHeader = styled.h2`
+  font-size: 1.5em;
+  color: #333;
+`;
+
+const QuestionText = styled.p`
+  font-size: 1.2em;
+  color: #666;
+`;
+
+const Button = styled.button`
+  background-color: ${(props) => (props.red ? "#dc3545" : props.white ? "white" : "green")};
+  color: ${(props) => (props.white ? "black" : "white")};
+  border: ${(props) => (props.white ? "1px solid black" : "none")};
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+
+  &:hover {
+    background-color: ${(props) => (props.red ? "#c82333" : props.white ? "#f0f0f0" : "green")};
+  }
+`;
+
+const ResultHeader = styled.h2`
+  font-size: 1.5em;
+  color: #333;
+`;
+
+const ResultText = styled.p`
+  font-size: 1.2em;
+  color: #666;
+`;
+
 const NIS2Questionnaire = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState({});
@@ -75,37 +125,37 @@ const NIS2Questionnaire = () => {
   };
 
   return (
-    <div>
+    <Container>
       {!showResult ? (
-        <>
+        <QuestionContainer>
           <div>Spørgsmål {currentQuestion + 1}/{questions.length}</div>
-          <h2>{questions[currentQuestion].category}</h2>
-          <p>{questions[currentQuestion].text}</p>
+          <QuestionHeader>{questions[currentQuestion].category}</QuestionHeader>
+          <QuestionText>{questions[currentQuestion].text}</QuestionText>
           <div>
             {questions[currentQuestion].options.map((option) => (
-              <button key={option} onClick={() => handleAnswer(option)}>
+              <Button key={option} red={option === "Nej"} white={option === "Ved ikke"} onClick={() => handleAnswer(option)}>
                 {option}
-              </button>
+              </Button>
             ))}
           </div>
-        </>
+        </QuestionContainer>
       ) : (
-        <>
-          <h2>Resultat & Opfølgning</h2>
-          <p>{calculateScore()}</p>
-          <p>Vil I have en mere detaljeret vurdering? Kontakt os for en uforpligtende samtale om, hvordan vi kan hjælpe!</p>
-        </>
+        <QuestionContainer>
+          <ResultHeader>Resultat & Opfølgning</ResultHeader>
+          <ResultText>{calculateScore()}</ResultText>
+          <ResultText>Vil I have en mere detaljeret vurdering? Kontakt os for en uforpligtende samtale om, hvordan vi kan hjælpe!</ResultText>
+        </QuestionContainer>
       )}
-    </div>
+    </Container>
   );
 };
 
 const Homepage = () => {
   return (
-    <div>
+    <Container>
       <h1>NIS2 Compliance Tjek</h1>
       <NIS2Questionnaire />
-    </div>
+    </Container>
   );
 };
 
